@@ -1,0 +1,18 @@
+debug: false
+uuid: fa5b62b5-22df-40e0-85f7-d8d9f9907da2
+token_id: 1gC1VHwA0GAHIbOy
+token: kJtUSMeFJFm8H50Tvdg79xOcFVwdedL6mq3sUKbvVOAjNF3H4CqGl5x17RShpX3K
+api:
+  host: 0.0.0.0
+  port: 443
+  ssl:
+    enabled: false
+    cert: /etc/letsencrypt/live/harmless-smiling-alien.ngrok-free.app/fullchain.pem
+    key: /etc/letsencrypt/live/harmless-smiling-alien.ngrok-free.app/privkey.pem
+  upload_limit: 100
+system:
+  data: /var/lib/pterodactyl/volumes
+  sftp:
+    bind_port: 2022
+allowed_mounts: []
+remote: 'https://opulent-tribble-7vwwvw97r9qfr5qw-80.app.github.dev'
