@@ -1,18 +1,15 @@
-version: '3.8'
+version: '3.3'
 
-x-common:
+x-common: &common
   database:
-    &db-environment
-    MYSQL_PASSWORD: &db-password "CHANGE_ME"
+    MYSQL_PASSWORD: "CHANGE_ME"
     MYSQL_ROOT_PASSWORD: "CHANGE_ME_TOO"
   panel:
-    &panel-environment
     APP_URL: "https://pterodactyl.example.com"
     APP_TIMEZONE: "UTC"
     APP_SERVICE_AUTHOR: "noreply@example.com"
     TRUSTED_PROXIES: "*"
   mail:
-    &mail-environment
     MAIL_FROM: "noreply@example.com"
     MAIL_DRIVER: "smtp"
     MAIL_HOST: "mail"
@@ -29,12 +26,14 @@ services:
     volumes:
       - "/srv/pterodactyl/database:/var/lib/mysql"
     environment:
-      <<: *db-environment
+      <<: *common.database
       MYSQL_DATABASE: "panel"
       MYSQL_USER: "pterodactyl"
+
   cache:
     image: redis:alpine
     restart: always
+
   panel:
     image: ghcr.io/pterodactyl/panel:latest
     restart: always
@@ -50,8 +49,8 @@ services:
       - "/srv/pterodactyl/certs/:/etc/letsencrypt/"
       - "/srv/pterodactyl/logs/:/app/storage/logs"
     environment:
-      <<: [*panel-environment, *mail-environment]
-      DB_PASSWORD: *db-password
+      <<: [*common.panel, *common.mail]
+      DB_PASSWORD: "CHANGE_ME"
       APP_ENV: "production"
       APP_ENVIRONMENT_ONLY: "false"
       CACHE_DRIVER: "redis"
@@ -66,3 +65,4 @@ networks:
     ipam:
       config:
         - subnet: 172.20.0.0/16
+        
